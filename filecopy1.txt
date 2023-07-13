@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: 'ADLSConnection'  # Specify the name of your Azure DevOps variable group that contains ADLS connection details
+
+steps:
+  - task: AzureFileCopy@5
+    displayName: 'Copy folder contents to ADLS Gen2'
+    inputs:
+      SourcePath: '$(Build.SourcesDirectory)/path/to/folder'  # Specify the relative path of the folder in your Git repository
+      azureSubscription: '$(AzureSubscription)'  # Specify the name of your Azure DevOps service connection
+      DestinationStorageAccount: '$(ADLSStorageAccount)'  # Specify the name of your ADLS storage account
+      DestinationContainer: 'configs'  # Specify the name of the container in your ADLS storage account
+      DestinationPath: '/path/to/destination'  # Specify the path where you want to copy the folder contents in the 'configs' container
+
+
+===================================================================================================
